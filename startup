@@ -100,7 +100,7 @@ if (question('DROPIN', 'Is it a drop-in game?')) {
 
     cmd('/referee/teamId='.$teamId);
 } else {
-    cmd('/referee/teamId=9');
+    cmd('/referee/teamId=13');
 }
 
 $field = prompt('FIELD', 'What is the current field ?', array_keys($fields));

@@ -8,7 +8,7 @@ if (count($argv) < 2) {
 // Remote host
 $field = $argv[1];
 $remote = isset($argv[2]) ? $argv[2] : '10.0.0.1';
-$wiface = 'wlan0';
+$wiface = 'wlp58s0';
 
 function cmd($cmd) {
     global $remote;
@@ -19,8 +19,8 @@ function cmd($cmd) {
 $result = explode('=', cmd('/referee/teamId'));
 
 //Configuration
-$ESSID = 'HL_FIELD_'.strtoupper($field).'_5G';
-$teamId = $result[1];
+$ESSID = 'game_controller';//.strtoupper($field).'_5G';
+$teamId = 13;//$result[1];
 
 //Retrieve robot hostname
 $hostname = trim(`ssh rhoban@$remote cat /etc/hostname`);
@@ -29,18 +29,20 @@ $hostname = trim(`ssh rhoban@$remote cat /etc/hostname`);
 $ip = null;
 
 // XXX: To update
-$ipPrefix = '192.168.9.';
+$ipPrefix = '192.168.1.';
 
-if ($hostname == 'olive') {
-    $ip = $ipPrefix.'41';
-} else if ($hostname == 'nova') {
-    $ip = $ipPrefix.'42';
-} else if ($hostname == 'arya') {
-    $ip = $ipPrefix.'43';
-} else if ($hostname == 'tom') {
-    $ip = $ipPrefix.'44';
-} else if ($hostname == 'rush') {
-    $ip = $ipPrefix.'45';
+if ($hostname == 'sycu1') {
+    $ip = $ipPrefix.'211';
+} else if ($hostname == 'sycu2') {
+    $ip = $ipPrefix.'212';
+} else if ($hostname == 'sycu3') {
+    $ip = $ipPrefix.'213';
+} else if ($hostname == 'sycu4') {
+    $ip = $ipPrefix.'214';
+} else if ($hostname == 'sycu5') {
+    $ip = $ipPrefix.'215';
+} else if ($hostname == 'sycu6') {
+    $ip = $ipPrefix.'216';
 } else {
     echo "\e[31mUnknown hostname:\e[m $hostname\n";
     die;
@@ -64,10 +66,10 @@ echo "Connecting \e[1m$hostname\e[m to wifi \e[1m$ESSID\e[m with IP \e[1m$ip\e[m
 `ssh rhoban@$remote sudo iw $wiface connect $ESSID`;
 
 // Setting IP address
-`ssh rhoban@$remote sudo ifconfig $wiface $ip netmask 255.255.0.0`;
+`ssh rhoban@$remote sudo ifconfig $wiface $ip netmask 255.255.255.0`;
 
 // Connecting to WiFi
-`ssh rhoban@$remote "wpa_passphrase $ESSID humanoid2018 > /tmp/wpa.conf"`;
+`ssh rhoban@$remote "wpa_passphrase $ESSID 12345678 > /tmp/wpa.conf"`;
 `ssh rhoban@$remote sudo wpa_supplicant -B -i$wiface -c/tmp/wpa.conf -Dwext`;
 
 // Open Iran
