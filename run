@@ -4,7 +4,30 @@
 // Remote host
 $remote = isset($argv[1]) ? $argv[1] : '10.0.0.1';
 
+function question($phrase, $msg) {
+    return prompt($phrase, $msg, ['y', 'n']) == 'y';
+}
+
+function prompt($phase, $msg, array $possibilities) {
+    $pos = implode(', ', $possibilities);
+    while (true) {
+        echo "\n\e[1m$phase: $msg\e[m (".$pos.")\n";
+        echo "> ";
+        flush();
+        $m = strtolower(trim(readline()));
+        if (in_array($m, $possibilities)) {
+            return $m;
+        }
+        echo "\e[1;31mYou should answer one of the following: ".$pos."\e[m\n";
+    }
+}
+
+if (question("LOG", "Should the robot log during the game?")) {
+ `ssh rhoban@$remote ./env/detect.sh` ;
+}
+
 `ssh rhoban@$remote ./env/stop.sh`;
 `ssh rhoban@$remote ./env/boot.sh`;
+
 
 system("ssh rhoban@$remote ./env/out.sh");

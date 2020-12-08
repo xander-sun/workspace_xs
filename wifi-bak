@@ -8,8 +8,7 @@ if (count($argv) < 2) {
 // Remote host
 $field = $argv[1];
 $remote = isset($argv[2]) ? $argv[2] : '10.0.0.1';
-$wiface = 'wlp58s0';//old_machine
-//$wiface = 'wlp1s0';
+$wiface = 'wlp58s0';
 
 function cmd($cmd) {
     global $remote;
@@ -20,8 +19,7 @@ function cmd($cmd) {
 $result = explode('=', cmd('/referee/teamId'));
 
 //Configuration
-//$ESSID = 'game_controller';//.strtoupper($field).'_5G';
-$ESSID = 'sycu_blue_55555555';//.strtoupper($field).'_5G';
+$ESSID = 'game_controller';//.strtoupper($field).'_5G';
 $teamId = 13;//$result[1];
 
 //Retrieve robot hostname
@@ -71,8 +69,7 @@ echo "Connecting \e[1m$hostname\e[m to wifi \e[1m$ESSID\e[m with IP \e[1m$ip\e[m
 `ssh rhoban@$remote sudo ifconfig $wiface $ip netmask 255.255.255.0`;
 
 // Connecting to WiFi
-//`ssh rhoban@$remote "wpa_passphrase $ESSID 12345678 > /tmp/wpa.conf"`;
-`ssh rhoban@$remote "wpa_passphrase $ESSID 55555555 > /tmp/wpa.conf"`;
+`ssh rhoban@$remote "wpa_passphrase $ESSID 12345678 > /tmp/wpa.conf"`;
 `ssh rhoban@$remote sudo wpa_supplicant -B -i$wiface -c/tmp/wpa.conf -Dwext`;
 
 // Open Iran

@@ -1,6 +1,6 @@
 #!/bin/bash 
 sudo apt-get install freeglut3-dev libx11-dev libxrandr-dev libfreetype6-dev
-./workspace install rhobandeps/sfml
+#./workspace install rhobandeps/sfml
 cd src/rhoban/model
 git fetch --tags
 git checkout final_2018

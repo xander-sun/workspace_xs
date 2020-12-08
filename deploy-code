@@ -15,6 +15,7 @@ echo "Killing KidSize on " . $remote;
 
 // Parameters
 $binary = 'devel_release/lib/kid_size/KidSize';
+$binary_2 = 'devel_release/lib/kid_size/detect_crow_server';
 $targetHost = 'rhoban@'.$remote;
 $targetDir = '/home/rhoban/catkin_rel/';
 
@@ -157,10 +158,26 @@ echo "* Preparing system libraries...\n";
 `cp /usr/lib/libflycapture*.so* .deploy/`;
 `cp /usr/lib/libptgreyvideoencoder.so* .deploy/`;
 
+
+`cp /usr/local/lib/libcurl.so.4* .deploy/`;
+//`cp /lib/x86_64-linux-gnu/libm.so.6* .deploy/`;
+//`cp /lib/x86_64-linux-gnu/libc.so.6* .deploy/`;
+`cp /usr/lib/x86_64-linux-gnu/libboost_system.so.1.65.1* .deploy/`;
+`cp /usr/local/lib/libtensorflow_cc.so.2* .deploy/`;
+`cp /usr/local/lib/libtensorflow_framework.so.2* .deploy/`;
+`cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6* .deploy/`;
+
+
+
+
+
 // Deploying
 echo "* Sending files...\n";
 `cp $binary .deploy/`;
+`cp $binary_2 .deploy/`;
 $binaryName = basename($binary);
 `chrpath --replace $targetDir .deploy/$binaryName`;
 `rsync --info=flist2,name,progress .deploy/* $targetHost:$targetDir`;
+
+
 
